@@ -18,4 +18,8 @@ The web application I am using is a management platform for environmental metada
 
 ## Contents
 
-*will be updated soon.*
+* [Building Instructions for the Cluster](instructions.md)
+* [Software Setup](software.md)
+* **utils folder**: scripts, settings and instructions mainly for software setup
+* **plans folder:** Casing vector graphics for lasercutter use
+
