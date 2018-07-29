@@ -3,6 +3,8 @@
 This repository is a collection of resources needed to reproduce my Elastic-Cluster. 
 The target audience are other makers, students, lecuterers, teachers and of course everyone interested.
 
+![](img/assembled.jpg)
+
 ## What is Elastic-Cluster?
 
 Well, at its core it is just a capsulated local network of Raspberry Pi or derivates, with one 
