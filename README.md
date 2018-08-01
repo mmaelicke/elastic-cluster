@@ -29,5 +29,5 @@ The web application I am using is a management platform for environmental metada
 
 Contributions to elastic-cluster are more than welcome. For me this is and has always been a sandbox and playground project to learn more about networking, Raspberries, electronics and whatsoever. Contributions are more than welcome. 
 
-However, there is a list with [ToDo's, Issues and Enhancements](todo.md) that I will probably face one day unless you get inspired by them and solve them.
+However, there is a list with [ToDo's, Issues and Enhancements](https://github.com/mmaelicke/elastic-cluster/issues) that I will probably face one day unless you get inspired by them and solve them.
 
