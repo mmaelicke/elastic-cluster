@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# project stuff
+img/IMG_*.jpg
+utils/datacourse.csv
+
+# temp
+utils
