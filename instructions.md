@@ -42,7 +42,19 @@ After trying around a little bit, I found that three stacks of pines fit on each
 
 ![](img/upper_drawer.jpg)
 
-The above Image shows my 5 cluster nodes on two stacks. You can see how the upper drawer is pulled out a bit and the lower one becomes visible. You can also see all the cables flying around in the server, with just 5 nodes and these are not fully connected. Therefore the bigger issue in extending the cluster is where to put all the cable. The image below shows the pine stack in a bit more details.
+The above Image shows my 5 cluster nodes on two stacks. You can see how the upper drawer is pulled out a bit and the lower one becomes visible. You can also see all the cables flying around in the server, with just 5 nodes and these are not fully connected. Therefore the bigger issue in extending the cluster is where to put all the cable. The image below shows the pine stack in a bit more detail.
 
+### Ventilation
 
+![](/home/mirko/Dropbox/Projects/elastic-cluster/img/fans.png)
+
+For ventilation, a ridicilous amount of holes has been added to each side of casing, as can be seen in the image above. This was done, because at the time of design it was not clear where the pine stacks will be located. However, inside the cascade of ventilation holes are smaller, irregular holes. These can be used to mount a 50mm GPU fan on top of them. Most of these fans are 12V fans, but from my experience they ventilate enough at 5V. This would prevent you from supplying more than one voltage to the cluster. In my version, all fans run at constant speed as soon as the cluster is powered. In the image above, you can see, that I soldered a 'distribution board' from what I had available. Definitely not a clean solution.
+
+There is enough space for improvement. You could either put a thermoresistor into the fan supply circuit in order to slow them down if it's not hot enough. The other possibility would be to measure the CPU temperature directly on all nodes by the Raspberry and control the fan speed accordingly. Just ideas.
+
+### Screen
+
+You my have seen on the main image, that I mounted a screen as a cover. This is a rather old laptop screen panel (1024x768 if you remember those times). As it was a quite common LCD panel, one could buy a driver board on ebay for ~30-40$. Then, this board is just connected to the Pi by the HDMI port. This is of couse just a very specific solution, but it turned out to be very helpful during development. The image below shows the Raspian OS on  the connected screen. 
+
+![](/home/mirko/Dropbox/Projects/elastic-cluster/img/screen.jpg)
 
