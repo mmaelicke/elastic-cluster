@@ -106,6 +106,8 @@ venv.bak/
 # project stuff
 img/IMG_*.jpg
 utils/datacourse.csv
+utils/datacourse.py
 
 # temp
-utils
+utils/_rocknode
+utils/rocknode/home

@@ -24,7 +24,43 @@ The Raspberry Pi 3+, which is used as a controller to run the cluster applicatio
 <div class="alert alert-info">
 Of course you can choose any other IP space, but keep in mind, that you might connect your Laptop to the cluster switch for debugging and development or the Pi might connect to an existing network. Make sure, that your IP adress space does not interference with any other application like VirtualBox or Docker or stuff like that (happend...).
 </div>
+### Debian Jessie
 
+I have written a small Python script to configure the nodes. It produces the needed files, which can then be uploaded to the nodes. This is easiest from a Linux os, as you can just mount the Jessie on the SD card and copy paste the created files. How to use the script is described below. First, we will walk through all adjustments.
 
+On Debian jessie, there are three files that need to be adjusted for networking:
+
+`/etc/hostname`
+
+```
+rocknode1
+```
+
+In `/etc/hosts` add two lines at the top:
+
+```
+127.0.0.1 localhost
+127.0.1.1 rocknode1
+
+#The following lines are desirable for IPv6 capable hosts
+
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+```
+
+In `/etc/dhcpcd.conf` add two lines to the end of the file:
+
+```
+interface eth0
+static ip_address=24.9.13.1/24
+```
+
+Where you can replace your name pattern in `/etc/hostname` and `/etc/hosts`  and replace the IP address in `/etc/dhcpcd.conf` with your IP pattern.
+
+## Elasticsearch
 
 *more will follow soon*
