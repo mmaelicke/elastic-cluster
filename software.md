@@ -63,4 +63,45 @@ Where you can replace your name pattern in `/etc/hostname` and `/etc/hosts`  and
 
 ## Elasticsearch
 
+As layed out before, running Elasticsearch on the elastic cluster is just one option. You could also install a Mongodb daemon on all nodes and distribute the shards across the nodes. These instructions will explain the necessary steps to get Elasticsearch running. One downside of the Debian Jessie I chose was that no Java compiler or runtime environment is available. Therefore, the JDK for Java 8 is included in the `/home/rock64`folder along with elasticsearch (Version 6.2) itself. In principle, the jre (runtime environment) inside the jdk should be enough to run elasticsearch, but I haven't tried that so far. Both, elasticsearch and JDK can just be copied into the home directory of the cluster node. Additionally, there is the `/home/rock64/elasticsearch.yml` file, which has to be copied into the config folder of elasticsearch after modifying it. In case you use the Python script, it will handle this for you. The necessary config used in my cluster version with 5 nodes active looks like:
+
+```
+[...]
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: emc2-iwg-1
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: rocknode-4
+
+[...]
+
+# ---------------------------------- Network -----------------------------------
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+#network.host: 192.168.0.1
+network.host: 0.0.0.0
+
+[...]
+
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when new node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.zen.ping.unicast.hosts: ["24.9.13.1", "24.9.13.2", "24.9.13.3", "24.9.13.4", "24.9.13.5"]
+
+[...]
+```
+
+Note, that is configuration will accept connections from every source. That's why it is important to not directly connect the nodes to an external network or the internet. This Elasticsearch instance does not have any Authentification enabled.
+
+Note: This config still lacks the CORS settings needed allow a JS application to communicate with Elasticsearch. I will update the files soon.
+
 *more will follow soon*
