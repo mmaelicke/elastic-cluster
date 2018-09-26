@@ -104,4 +104,80 @@ Note, that is configuration will accept connections from every source. That's wh
 
 Note: This config still lacks the CORS settings needed allow a JS application to communicate with Elasticsearch. I will update the files soon.
 
-*more will follow soon*
+#### Configuration
+
+There is a lot that can be configured on an Elasticsearch instance. Keep in mind, that you need to configure the Elasticsearch applications on all nodes in exactly the same way in order to work properly. But there is one setting, that is mandatory. Elasticsearch uses `mmapfs` directory to store indices and the Debian Jessie OS does not allow enough virtual memory for one process. Therefore, the following line has to be appended to the `/etc/sysctl.conf`:
+
+```
+vm.max_map_count=262144
+```
+
+In cas you use the Python script to create the necessary files for each node, a modified `sysctl.conf` is already copied into the `etc` that needs to be shipped to the operation system on the SD card. Keep that in mind in case you decide to add additional modifications to the `sysctl.conf`.
+
+#### Starting Elasticsearch
+
+You can find a prepared service file in the home directory of the utils folder. I prefer to operate Elasticsearch as a service, because you can start/stop/restart/reload Elasticsearch easily. Additionally, a service can be enable or disabled. An enabled service will start up automatically on system startup. That's quite handy. Once installed, you can ask for the status like:
+
+```bash
+sudo systemctl status elasticsearch.service
+```
+
+which will output something like:
+
+```
+● elasticsearch.service - Elasticsearch
+   Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; disabled; vend
+   Active: inactive (dead)
+     Docs: http://www.elastic.co
+lines 1-4/4 (END)
+```
+
+(This is an Elasticsearch on my Laptop, therefore the path is different.)
+
+Enabling the service permanentily can be done by `systemctl`:
+
+```bash
+sudo systemctl enable elasticsearch.service
+```
+
+Keep in mind, that this will just enable the service, in order to start it on next system startup. So you either reboot the node, or start the service manually:
+
+```bash
+sudo systemctl start elasticsearch.service
+```
+
+
+
+In case you use the Python script, it will automatically be copied into the prepared location. On Debian Jessie, services live in the `/etc/systemd/system`directory. The most important part of the service file is shown below `/etc/systemd/system/elasticsearch.service` :
+
+```
+[Unit]
+Description=Elasticsearch
+Documentation=http://www.elastic.co
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+RuntimeDirectory=elasticsearch
+Environment=ES_HOME=/home/rock64/elasticsearch-6.2.4
+Environment=ES_PATH_CONF=/home/rock64/elasticsearch-6.2.4/config
+Environment=PID_DIR=/home/rock64
+Environment=JAVA_HOME=/home/rock64/jdk1.8.0_171/bin/java
+
+
+WorkingDirectory=/home/rock64/elasticsearch-6.2.4
+
+User=rock64
+Group=rock64
+
+ExecStart=/home/rock64/elasticsearch-6.2.4/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
+
+[...]
+```
+
+Two important lines that you might want to change, before deploying the service file to the nodes is the `Environment=JAVA_HOME [...]` and the `ExecStart= [...]`  lines. I haven't tried it yet, but it should absolutely be possible to replace the JDK in the home folder by a JRE and adapt the path here. Might be easier to handle in terms of Java licenes.
+
+The `ExecStart` setting specifies how elasticsearch will be started. Here, it is started iwth the `-p`flag, which will save the PID into the specified file. This makes killing the process easy. Additionally, the `--quiet`flag is set in order to silence Elasticsearch, because nobody will be listening. If you want to, for debugging or whatever, you can just change this line and re-deploy the service file. The Elasticsearch references list more options that can be used on startup.
+
+In case you download a more recent version of Elasticsearch or use other hardware than the Rock64, you will have to change the service file accordingly. 
+
